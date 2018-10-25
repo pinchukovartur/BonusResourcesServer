@@ -2,7 +2,7 @@ import json
 import time
 from django.shortcuts import render, redirect
 
-from .constant import local_server_url
+from .constant import server_url
 
 import requests
 
@@ -28,9 +28,13 @@ def find_game_state_bonuses(request):
         return render(request, 'bonusmanager/index.html', {"error": "game state id can't be null!"})
 
     game_state_id = request.POST["game_state_id"]
-    r = requests.get(local_server_url + "get_bonus_resource?game_state_id=" + game_state_id + "&all_bonuses=true")
+    r = requests.get(server_url + "get_bonus_resource?game_state_id=" + game_state_id + "&all_bonuses=true")
 
+    print(r.text)
     response = json.loads(r.text)
+
+    if "error" in response.keys():
+        return render(request, 'bonusmanager/index.html', {"error": response["error"]})
 
     if response["complete"] != "complete":
         return render(request, 'bonusmanager/bonus_table.html', {})
@@ -56,7 +60,7 @@ def add_bonus(request):
     count = request.POST["count"]
     type_bonus = request.POST["type_bonus"]
 
-    requests.get(local_server_url + "save_bonus_resource?game_state_id=" + game_state_id +
+    requests.get(server_url + "save_bonus_resource?game_state_id=" + game_state_id +
                  "&bonus_resources_type=" + type_bonus + "&bonus_resources_count=" + count)
     time.sleep(1)
     return find_game_state_bonuses(request)
@@ -78,7 +82,7 @@ def del_bonus(request):
     game_state_id = request.POST["game_state_id"]
     create_at = request.POST["create_at"]
 
-    requests.get(local_server_url + "del_bonus_resource?game_state_id=" + game_state_id +
+    requests.get(server_url + "del_bonus_resource?game_state_id=" + game_state_id +
                  "&create_at_bonus=" + create_at)
     time.sleep(1)
     return find_game_state_bonuses(request)
