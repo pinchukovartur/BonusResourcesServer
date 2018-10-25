@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bonuses</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{% static 'css/tables.css' %}">
+    <link rel="stylesheet" href="{% static 'css/single.css' %}">
+</head>
+<body>
+<div class="container">
+
+    <a href="/"><h4> <- return</h4></a>
+
+    {% if resources %}
+        <h2>Game State ID: {{ game_state_id }}</h2>
+        <table class="table">
+            <tr>
+                <th>Type</th>
+                <th>Count</th>
+                <th>Create Bonus Date</th>
+                <th>Is Active</th>
+                <th></th>
+            </tr>
+
+            {% for bonus in resources %}
+                <tr>
+                    <td>{{ bonus.bonus_type }}</td>
+                    <td>{{ bonus.bonus_count }}</td>
+                    <td>{{ bonus.create_bonus_at }}</td>
+                    <td>{{ bonus.is_active }}</td>
+                    <td><form method="post" action="del_bonus">{% csrf_token %}
+                        <input type="hidden" value="{{ game_state_id }}" name="game_state_id">
+                        <input type="hidden" value="{{ bonus.create_bonus_at }}" name="create_at">
+                        <input value="del" type="submit">
+                    </form></td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+    <h4>Add New Bonus:</h4>
+
+    <form action="add_bonus" method="post" id="new_bonus">{% csrf_token %}
+        <label>Bonus Count:<br>
+            <input type="number" name="count">
+        </label>
+        <label>
+            <select name="type_bonus" form="new_bonus">
+                <option value="0">Game Currency</option>
+                <option value="1">Premium Currency</option>
+                <option value="2">Endless Lives</option>
+                <option value="3">First Start Bonus</option>
+                <option value="4">Second Start Bonus</option>
+                <option value="5">Third Start Bonus</option>
+                <option value="6">Hammer</option>
+                <option value="7">Life</option>
+            </select>
+        </label>
+        <input type="hidden" value="{{ game_state_id }}" name="game_state_id">
+        <input type="submit" value="create">
+    </form>
+</div>
+
+</body>
+</html>

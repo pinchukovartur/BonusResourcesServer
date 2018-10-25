@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bonus Manager</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{% static 'css/single.css' %}">
+</head>
+<body>
+<div class="container">
+
+    {% if error %}
+        <h3>{{ error }}</h3>
+    {% endif %}
+
+    <form action="bonus_table" method="post">{% csrf_token %}
+        <label> Game State ID:<br>
+            <input type="text" name="game_state_id">
+        </label><br>
+        <input type="submit" value="Find Game State Bonuses">
+    </form>
+</div>
+</body>
+</html>
