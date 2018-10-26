@@ -37,7 +37,7 @@ def find_game_state_bonuses(request):
         return render(request, 'bonusmanager/index.html', {"error": response["error"]})
 
     if response["complete"] != "complete":
-        return render(request, 'bonusmanager/bonus_table.html', {})
+        return render(request, 'bonusmanager/bonus_table.html', {"game_state_id": game_state_id})
 
     return render(request, 'bonusmanager/bonus_table.html', {"resources": response["resources"],
                                                              "game_state_id": game_state_id})
