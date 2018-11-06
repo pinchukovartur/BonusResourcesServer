@@ -19,7 +19,14 @@
     <form action="bonus_table" method="post">{% csrf_token %}
         <label> Game State ID:<br>
             <input type="text" name="game_state_id">
-        </label><br>
+        </label>
+        <label>
+            <select name="server">
+                <option name="server" value="dev">dev</option>
+                <option name="server" value="prod">prod</option>
+            </select>
+        </label>
+        <br>
         <input type="submit" value="Find Game State Bonuses">
     </form>
 </div>
