@@ -49,13 +49,18 @@ def find_game_state_bonuses(request):
     r = requests.get(server_url + "get_bonus_resource?game_state_id=" + game_state_id + "&all_bonuses=true&key=" + server_key)
 
     print(r.text)
-    response = json.loads(r.text)
+    print()
+    print()
+    print()
+    print()
+    response = json.loads(str(r.text))
 
     if "error" in response.keys():
         return render(request, 'bonusmanager/index.html', {"error": response["error"]})
 
     if response["complete"] != "complete":
-        return render(request, 'bonusmanager/bonus_table.html', {"game_state_id": game_state_id})
+        return render(request, 'bonusmanager/bonus_table.html', {"game_state_id": game_state_id,
+                                                                 "server": request.POST["server"]})
 
     return render(request, 'bonusmanager/bonus_table.html', {"resources": response["resources"],
                                                              "game_state_id": game_state_id,

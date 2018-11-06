@@ -36,6 +36,7 @@
                     <td><form method="post" action="del_bonus">{% csrf_token %}
                         <input type="hidden" value="{{ game_state_id }}" name="game_state_id">
                         <input type="hidden" value="{{ bonus.create_bonus_at }}" name="create_at">
+                        <input type="hidden" value="{{ server }}" name="server">
                         <input value="del" type="submit">
                     </form></td>
                 </tr>
@@ -62,6 +63,7 @@
             </select>
         </label>
         <input type="hidden" value="{{ game_state_id }}" name="game_state_id">
+        <input type="hidden" value="{{ server }}" name="server">
         <input type="submit" value="create">
     </form>
 </div>
