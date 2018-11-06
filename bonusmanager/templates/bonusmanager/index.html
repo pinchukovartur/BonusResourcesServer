@@ -16,14 +16,14 @@
         <h3>{{ error }}</h3>
     {% endif %}
 
-    <form action="bonus_table" method="post">{% csrf_token %}
+    <form action="bonus_table" method="post" id="find_bonus">{% csrf_token %}
         <label> Game State ID:<br>
             <input type="text" name="game_state_id">
         </label>
         <label>
-            <select name="server">
-                <option name="server" value="dev">dev</option>
-                <option name="server" value="prod">prod</option>
+            <select name="server" form="find_bonus">
+                <option value="dev">dev</option>
+                <option value="prod">prod</option>
             </select>
         </label>
         <br>
